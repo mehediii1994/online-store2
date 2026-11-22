@@ -6,14 +6,14 @@ button{font:inherit;border:1px solid var(--bd);background:var(--c);color:var(--t
 .g{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.cd{background:var(--c);border:1px solid var(--bd);border-radius:14px;padding:10px;margin-bottom:10px}.im{height:110px;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--bg);border-radius:10px;overflow:hidden}.im img{width:100%;height:100%;object-fit:cover}.m{color:var(--mu);font-size:13px}.r{display:flex;gap:8px;align-items:center;justify-content:space-between}.ch{display:inline-block;margin:0 4px 6px 0}.ac{background:var(--br);color:#fff}@media print{header,button{display:none}}</style></head><body>
 <header><b id="hn">🛍 Shop</b><button onclick="L=L==='bn'?'en':'bn';localStorage.sl=L;R()">বাং/EN</button><button onclick="V='track';R()">📦</button><button class="p" onclick="V='cart';R()">🛒 <span id="cc">0</span></button></header><main id="m">…</main>
 <script>
-const FB={apiKey:"AIzaSyCwZnS7RvwnQXEgwpiZtdfeJe_kj9Af4hw",authDomain:"onlineshop1-4f736.firebaseapp.com",projectId:"onlineshop1-4f736",storageBucket:"onlineshop1-4f736.firebasestorage.app",messagingSenderId:"99781106939",appId:"1:99781106939:web:016dc3430461fcef44645e"}; // paste your NEW Firebase config here (same as in index.html)
+const FB={apiKey:"",authDomain:"",projectId:"",storageBucket:"",messagingSenderId:"",appId:""}; // <-- নতুন Firebase config এখানে বসান (index.html ও shop.html দুটোতেই একই)
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),N=n=>+n||0,mo=n=>'৳'+Math.round(N(n)*100)/100;
 let L=localStorage.sl||'bn',t=s=>s.split('|')[L==='bn'?0:1],P=[],cfg={},cart={},V='shop',Q='',CAT='',DONE=null,TR=null;
 try{cart=JSON.parse(localStorage.cart||'{}')}catch(e){}
 const WN=x=>{x=String(x||'').replace(/\D/g,'');return x.length===11&&x.startsWith('01')?'88'+x:x},
 sv=()=>{try{localStorage.cart=JSON.stringify(cart)}catch(e){}},
 SN={pending:'অপেক্ষমাণ|Pending',confirmed:'নিশ্চিত|Confirmed',processing:'প্রস্তুত হচ্ছে|Processing',shipped:'পাঠানো হয়েছে|Shipped',delivered:'পৌঁছেছে|Delivered',cancelled:'বাতিল|Cancelled',refunded:'ফেরত|Refunded'};
-let C;try{firebase.initializeApp(FB);C=s=>firebase.firestore().collection('shops').doc('main').collection(s)}catch(e){}
+let C;try{if(!FB.apiKey)throw 0;firebase.initializeApp(FB);C=s=>firebase.firestore().collection('shops').doc('main').collection(s)}catch(e){}
 const lines=()=>Object.entries(cart).map(([id,q])=>{const p=P.find(x=>x.id===id);return p&&p.stock>0?{p,q:Math.min(q,p.stock)}:null}).filter(Boolean),
 sub=()=>lines().reduce((a,l)=>a+l.q*l.p.price,0),ship=()=>{const s=sub();return!s||(N(cfg.free)>0&&s>=N(cfg.free))?0:N(cfg.ship)};
 async function load(){if(!C){$('#m').innerHTML='<p>'+t('দোকান এখনো সেটআপ হয়নি|Shop is not set up yet')+'</p>';return}try{cfg=(await C('shopcfg').doc('main').get()).data()||{};P=(await C('pub').get()).docs.map(d=>d.data())}catch(e){$('#m').innerHTML='<p>'+t('লোড হয়নি, পরে চেষ্টা করুন|Could not load, please try later')+'</p>';return}R()}

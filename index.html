@@ -301,7 +301,7 @@ function render(){const n=NAV.find(x=>x[0]===V);charts.forEach(c=>c.destroy());c
  if(V==='products')pList();if(V==='pur')plines();if(V==='sales'){slines();spick('')}if(V==='hist')hList();
  document.querySelector('aside .on')?.scrollIntoView?.({inline:'center',block:'nearest'});charts=typeof Chart==='undefined'?[]:cq.map(([id,cfg])=>new Chart($('#'+id),{...cfg,options:{responsive:true,plugins:{legend:{display:cfg.data.datasets.length>1}}}}))}
 // ---- cloud sync (Firebase) : inactive until FB config is filled ----
-const FB={apiKey:"AIzaSyCwZnS7RvwnQXEgwpiZtdfeJe_kj9Af4hw",authDomain:"onlineshop1-4f736.firebaseapp.com",projectId:"onlineshop1-4f736",storageBucket:"onlineshop1-4f736.firebasestorage.app",messagingSenderId:"99781106939",appId:"1:99781106939:web:016dc3430461fcef44645e"}; // v6: paste your NEW Firebase config here (also in shop.html) // <-- paste your Firebase config here
+const FB={apiKey:"",authDomain:"",projectId:"",storageBucket:"",messagingSenderId:"",appId:""}; // <-- নতুন Firebase config এখানে বসান (index.html ও shop.html দুটোতেই একই)
 const SYNC=(()=>{let fs,au,role=null,tmr;const SHOP='main',on=()=>!!FB.apiKey&&typeof firebase!=='undefined',
 col=s=>fs.collection('shops').doc(SHOP).collection(s),cl=o=>JSON.parse(JSON.stringify(o)),ud=id=>col('users').doc(id),
 pubSync=o=>{const d=col('pub').doc(o.id);if(o.pub&&!o.archived)d.set(cl({id:o.id,name:o.name,cat:o.category||'',unit:o.unit||'',icon:o.icon||'',price:N(o.retail),stock:N(o.stock),desc:o.od||'',img:o.img||'',t:Date.now()})).catch(console.warn);else if(role==='owner')d.delete().catch(console.warn)},
